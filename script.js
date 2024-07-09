@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnBackgroundColor = document.querySelector('.btn-temi');
     let countries = [];
     let currentCountry = {};
+    const testoPunteggio=document.querySelector('.testo-punteggio');
+    let punteggio=0;
 
     async function fetchCountries() {
         const response = await fetch('https://restcountries.com/v3.1/all');
@@ -42,9 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedCountry.name.common === currentCountry.name.common) {
             resultText.textContent = 'Corretto!';
             resultText.style.color = 'green';
+            punteggio++;
+            testoPunteggio.innerHTML=`Punteggio: '+${punteggio}`;
         } else {
             resultText.textContent = `Sbagliato! La risposta corretta era ${currentCountry.name.common}.`;
             resultText.style.color = 'red';
+            punteggio--;
+            testoPunteggio.innerHTML=`Punteggio: ${punteggio}`;
         }
         nextBtn.style.display = 'block';
     }
@@ -54,16 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCountries();
     btnBackgroundColor.addEventListener('click', colorChange);
     function colorChange() {
-        console.log('sono qui');
         const randomIndex = Math.floor(Math.random() * backgroundColors.length);
         const randomColor = backgroundColors[randomIndex];
         document.body.style.backgroundColor = randomColor;
         const buttons = document.querySelectorAll('#options-container button');
-        buttons.forEach(btn=>{
-            btn.style.backgroundColor=randomColor;
+        buttons.forEach(btn => {
+            btn.style.backgroundColor = randomColor;
         });
-        btnBackgroundColor.style.backgroundColor=randomColor;
-        
+        btnBackgroundColor.style.backgroundColor = randomColor;
+
     }
 });
 
