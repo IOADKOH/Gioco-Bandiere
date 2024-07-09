@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnBackgroundColor = document.querySelector('.btn-temi');
     let countries = [];
     let currentCountry = {};
-    const testoPunteggio=document.querySelector('.testo-punteggio');
-    let punteggio=0;
-    const temaSound=document.querySelector('.tema-sound');
-    const wrongSound=document.querySelector('.wrong-sound');
-    const optionSound=document.querySelector('.opzione-sound');
-    const nextSound=document.querySelector('.next-sound');
+    const testoPunteggio = document.querySelector('.testo-punteggio');
+    let punteggio = 0;
+    const temaSound = document.querySelector('.tema-sound');
+    const wrongSound = document.querySelector('.wrong-sound');
+    const optionSound = document.querySelector('.opzione-sound');
+    const nextSound = document.querySelector('.next-sound');
+    let randomColor = '#fff';
 
 
     async function fetchCountries() {
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.textContent = country.name.common;
             button.addEventListener('click', () => checkAnswer(country));
+            button.style.backgroundColor=randomColor;
             optionsContainer.appendChild(button);
         });
     }
@@ -51,17 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
             resultText.textContent = 'Corretto!';
             resultText.style.color = 'green';
             punteggio++;
-            testoPunteggio.innerHTML=`Punteggio: ${punteggio}`;
+            testoPunteggio.innerHTML = `Punteggio: ${punteggio}`;
             optionSound.play();
         } else {
             resultText.textContent = `Sbagliato! La risposta corretta era ${currentCountry.name.common}.`;
             resultText.style.color = 'red';
             punteggio--;
-            testoPunteggio.innerHTML=`Punteggio: ${punteggio}`;
+            testoPunteggio.innerHTML = `Punteggio: ${punteggio}`;
             wrongSound.play();
         }
         nextBtn.style.display = 'block';
-        
+
     }
 
     nextBtn.addEventListener('click', newQuestion);
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBackgroundColor.addEventListener('click', colorChange);
     function colorChange() {
         const randomIndex = Math.floor(Math.random() * backgroundColors.length);
-          const randomColor = backgroundColors[randomIndex];
+        randomColor = backgroundColors[randomIndex];
         document.body.style.backgroundColor = randomColor;
         const buttons = document.querySelectorAll('#options-container button');
         buttons.forEach(btn => {
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         btnBackgroundColor.style.backgroundColor = randomColor;
         temaSound.play();
-        nextBtn.style.backgroundColor=randomColor;
+        nextBtn.style.backgroundColor = randomColor;
 
     }
 });
