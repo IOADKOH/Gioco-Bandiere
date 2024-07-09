@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCountry = {};
     const testoPunteggio=document.querySelector('.testo-punteggio');
     let punteggio=0;
+    const temaSound=document.querySelector('.tema-sound');
+    const wrongSound=document.querySelector('.wrong-sound');
+    const optionSound=document.querySelector('.opzione-sound');
+    const nextSound=document.querySelector('.next-sound');
+
 
     async function fetchCountries() {
         const response = await fetch('https://restcountries.com/v3.1/all');
@@ -21,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultText.textContent = '';
         nextBtn.style.display = 'none';
         optionsContainer.innerHTML = '';
+        nextSound.play();
 
         const randomCountries = getRandomCountries(4);
         currentCountry = randomCountries[Math.floor(Math.random() * randomCountries.length)];
@@ -45,14 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
             resultText.textContent = 'Corretto!';
             resultText.style.color = 'green';
             punteggio++;
-            testoPunteggio.innerHTML=`Punteggio: '+${punteggio}`;
+            testoPunteggio.innerHTML=`Punteggio: ${punteggio}`;
+            optionSound.play();
         } else {
             resultText.textContent = `Sbagliato! La risposta corretta era ${currentCountry.name.common}.`;
             resultText.style.color = 'red';
             punteggio--;
             testoPunteggio.innerHTML=`Punteggio: ${punteggio}`;
+            wrongSound.play();
         }
         nextBtn.style.display = 'block';
+        
     }
 
     nextBtn.addEventListener('click', newQuestion);
@@ -61,13 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btnBackgroundColor.addEventListener('click', colorChange);
     function colorChange() {
         const randomIndex = Math.floor(Math.random() * backgroundColors.length);
-        const randomColor = backgroundColors[randomIndex];
+          const randomColor = backgroundColors[randomIndex];
         document.body.style.backgroundColor = randomColor;
         const buttons = document.querySelectorAll('#options-container button');
         buttons.forEach(btn => {
             btn.style.backgroundColor = randomColor;
         });
         btnBackgroundColor.style.backgroundColor = randomColor;
+        temaSound.play();
+        nextBtn.style.backgroundColor=randomColor;
 
     }
 });
