@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionsContainer = document.getElementById('options-container');
     const nextBtn = document.getElementById('next-btn');
     const resultText = document.getElementById('result');
-
+    const backgroundColors = ['#229954', '#4933FF', '#FF9C33', '#E0FF33', '#9633FF'];
+    const btnBackgroundColor = document.querySelector('.btn-temi');
     let countries = [];
     let currentCountry = {};
 
@@ -51,4 +52,18 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn.addEventListener('click', newQuestion);
 
     fetchCountries();
+    btnBackgroundColor.addEventListener('click', colorChange);
+    function colorChange() {
+        console.log('sono qui');
+        const randomIndex = Math.floor(Math.random() * backgroundColors.length);
+        const randomColor = backgroundColors[randomIndex];
+        document.body.style.backgroundColor = randomColor;
+        const buttons = document.querySelectorAll('#options-container button');
+        buttons.forEach(btn=>{
+            btn.style.backgroundColor=randomColor;
+        });
+        btnBackgroundColor.style.backgroundColor=randomColor;
+        
+    }
 });
+
