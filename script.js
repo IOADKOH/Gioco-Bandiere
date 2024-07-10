@@ -15,7 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const optionSound = document.querySelector('.opzione-sound');
     const nextSound = document.querySelector('.next-sound');
     let randomColor = '#fff';
-
+    const testoDomandeTotali = document.querySelector('.numero-domande');
+    const testoPercentualeDomande = document.querySelector('.percentuale');
+    let numeroDomande = 0;
+    let riposteCorrette = 0;
+    
 
     async function fetchCountries() {
         const response = await fetch('https://restcountries.com/v3.1/all');
@@ -28,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.style.display = 'none';
         optionsContainer.innerHTML = '';
         nextSound.play();
+        numeroDomande++;
+        testoDomandeTotali.textContent=`Numero domande: ${numeroDomande}`;
+        testoPercentualeDomande.textContent=`Percentuale risposte corrette: ${Math.floor((riposteCorrette/numeroDomande)*100)+'%'}`;
+        
 
         const randomCountries = getRandomCountries(4);
         currentCountry = randomCountries[Math.floor(Math.random() * randomCountries.length)];
@@ -38,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.textContent = country.name.common;
             button.addEventListener('click', () => checkAnswer(country));
-            button.style.backgroundColor=randomColor;
+            button.style.backgroundColor = randomColor;
             optionsContainer.appendChild(button);
         });
     }
@@ -53,8 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
             resultText.textContent = 'Corretto!';
             resultText.style.color = 'green';
             punteggio++;
+            riposteCorrette++;
             testoPunteggio.innerHTML = `Punteggio: ${punteggio}`;
             optionSound.play();
+            
+           
         } else {
             resultText.textContent = `Sbagliato! La risposta corretta era ${currentCountry.name.common}.`;
             resultText.style.color = 'red';
@@ -69,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextBtn.addEventListener('click', newQuestion);
 
     fetchCountries();
+
     btnBackgroundColor.addEventListener('click', colorChange);
     function colorChange() {
         const randomIndex = Math.floor(Math.random() * backgroundColors.length);
